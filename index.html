@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AetherAmethyst • Eclipse & Bliss</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* 
+         * =========================================
+         * DESIGN SYSTEM: THE AMETHYST CORE
+         * =========================================
+         */
+    :root {
+      --font-display: 'Outfit', system-ui, sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+      --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 
+         * VARIANT 1: ECLIPSE (Dark Mode)
+         */
+    [data-theme="eclipse"] {
+      --bg-deep: #13111B;
+      /* The Void */
+      --bg-surface: #1B1824;
+      /* Panel */
+      --bg-element: #252130;
+      /* Inputs/Cards */
+      --bg-active: #2F2942;
+      /* Highlight */
+
+      --fg-primary: #EDE8F5;
+      /* White Lilac */
+      --fg-secondary: #9B94A8;
+      /* Muted Lavender */
+      --fg-comment: #5C5269;
+      /* Deep Shadow */
+
+      /* Syntax */
+      --syn-keyword: #9580FF;
+      /* Logic (Blue-Violet) */
+      --syn-function: #FF70B8;
+      /* Action (Neon Pink) */
+      --syn-type: #D2A8FF;
+      /* Structure (Soft Purple) */
+      --syn-string: #FF9CE6;
+      /* Content (Rose) */
+      --syn-number: #C26BFF;
+      /* Math (Vivid Violet) */
+      --syn-operator: #80FFEA;
+      /* Flow (Cyan) */
+
+      /* UI Elements */
+      --border: #2E283B;
+      --shadow: rgba(0, 0, 0, 0.6);
+      --accent-glow: rgba(189, 94, 255, 0.3);
+      --logo-ring: var(--syn-function);
+    }
+
+    /* 
+         * VARIANT 2: BLISS (Light Mode)
+         */
+    [data-theme="bliss"] {
+      --bg-deep: #FDF7FF;
+      /* Paper White */
+      --bg-surface: #F4EBFA;
+      /* Pale Lavender */
+      --bg-element: #EADCF5;
+      /* Card Background */
+      --bg-active: #DCC2F0;
+      /* Highlight */
+
+      --fg-primary: #3E3245;
+      /* Deep Plum (Text) */
+      --fg-secondary: #746880;
+      /* Muted Grape */
+      --fg-comment: #9E94A8;
+      /* Dusty Lilac */
+
+      /* Syntax */
+      --syn-keyword: #624CAB;
+      /* Logic (Royal Indigo) */
+      --syn-function: #D1006B;
+      /* Action (Berry Magenta) */
+      --syn-type: #8839CE;
+      /* Structure (Amethyst) */
+      --syn-string: #C22085;
+      /* Content (Deep Rose) */
+      --syn-number: #7B1FA2;
+      /* Math (Dark Violet) */
+      --syn-operator: #008B8B;
+      /* Flow (Dark Teal) */
+
+      /* UI Elements */
+      --border: #DCC2F0;
+      --shadow: rgba(62, 50, 69, 0.1);
+      --accent-glow: rgba(136, 57, 206, 0.15);
+      --logo-ring: var(--syn-type);
+    }
+
+    /* RESET & BASE */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--fg-primary);
+      font-family: var(--font-display);
+      transition: background 0.5s var(--ease-smooth), color 0.5s;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 
+         * =========================================
+         * COMPONENTS
+         * =========================================
+         */
+
+    /* HERO & LOGO */
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem 4rem;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-bottom: 2.5rem;
+
+      /* The "Beautiful" Styling */
+      border: 4px solid var(--bg-deep);
+      box-shadow:
+        0 0 0 3px var(--logo-ring),
+        /* The Ring */
+        0 0 40px var(--accent-glow);
+      /* The Aura */
+
+      transition: all 0.5s var(--ease-elastic);
+      cursor: pointer;
+      object-fit: cover;
+    }
+
+    .hero-logo:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow:
+        0 0 0 3px var(--syn-keyword),
+        0 0 60px var(--accent-glow);
+    }
+
+    .brand-badge {
+      display: inline-block;
+      background: var(--bg-active);
+      color: var(--syn-function);
+      padding: 0.5rem 1.5rem;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    h1 {
+      font-size: 4.5rem;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, var(--syn-keyword), var(--syn-function));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.lead {
+      font-size: 1.25rem;
+      color: var(--fg-secondary);
+      line-height: 1.6;
+      margin-bottom: 3rem;
+      max-width: 600px;
+    }
+
+    /* THEME SWITCHER */
+    .toggle-capsule {
+      background: var(--bg-surface);
+      padding: 0.5rem;
+      border-radius: 99px;
+      display: inline-flex;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+
+    .toggle-btn {
+      border: none;
+      background: transparent;
+      color: var(--fg-secondary);
+      padding: 0.75rem 2rem;
+      border-radius: 99px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-elastic);
+    }
+
+    .toggle-btn:hover {
+      color: var(--fg-primary);
+    }
+
+    .toggle-btn.active {
+      background: var(--bg-active);
+      color: var(--syn-keyword);
+      box-shadow: 0 4px 15px var(--accent-glow);
+      transform: scale(1.05);
+    }
+
+    /* PREVIEW GRID */
+    .preview-stage {
+      width: 100%;
+      max-width: 1400px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 2rem;
+    }
+
+    /* WINDOWS */
+    .window {
+      background: var(--bg-surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 60px var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .window:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 40px 80px var(--shadow);
+      border-color: var(--syn-keyword);
+    }
+
+    .titlebar {
+      background: var(--bg-surface);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+
+    .close {
+      background: #FF5F56;
+    }
+
+    .min {
+      background: #FFBD2E;
+    }
+
+    .max {
+      background: #27C93F;
+    }
+
+    .win-title {
+      margin: 0 auto;
+      font-size: 0.8rem;
+      color: var(--fg-secondary);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* TERMINAL */
+    .terminal {
+      padding: 1.5rem;
+      font-family: var(--font-code);
+      font-size: 0.9rem;
+      background: var(--bg-deep);
+      color: var(--fg-primary);
+      height: 100%;
+    }
+
+    .prompt-char {
+      color: var(--syn-function);
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    .prompt-path {
+      color: var(--syn-keyword);
+      margin-right: 0.5rem;
+    }
+
+    .caret {
+      display: inline-block;
+      width: 0.6em;
+      height: 1.2em;
+      background: var(--fg-secondary);
+      animation: blink 1s infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* GUI */
+    .gui-content {
+      padding: 1.5rem;
+      display: grid;
+      gap: 1.5rem;
+      background: var(--bg-surface);
+    }
+
+    .widget {
+      background: var(--bg-element);
+      border-radius: 12px;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+    }
+
+    .widget-head {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--fg-secondary);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .widget-val {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--fg-primary);
+    }
+
+    .progress-track {
+      height: 6px;
+      background: var(--bg-surface);
+      border-radius: 3px;
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 65%;
+      background: linear-gradient(90deg, var(--syn-keyword), var(--syn-function));
+    }
+
+    /* EDITOR */
+    .editor {
+      font-family: var(--font-code);
+      font-size: 15px;
+      line-height: 1.6;
+      background: var(--bg-surface);
+      display: flex;
+      height: 100%;
+      min-height: 500px;
+    }
+
+    .gutter {
+      width: 4rem;
+      text-align: right;
+      padding: 1.5rem 1rem;
+      color: var(--fg-comment);
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+      user-select: none;
+    }
+
+    .code {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-x: auto;
+      color: var(--fg-primary);
+    }
+
+    .ln {
+      display: block;
+    }
+
+    .ln.active {
+      background: var(--bg-active);
+      box-shadow: -1.5rem 0 0 var(--bg-active);
+      border-left: 2px solid var(--syn-function);
+    }
+
+    /* SYNTAX */
+    .k {
+      color: var(--syn-keyword);
+      font-weight: 600;
+    }
+
+    .f {
+      color: var(--syn-function);
+    }
+
+    .t {
+      color: var(--syn-type);
+      font-style: italic;
+    }
+
+    .s {
+      color: var(--syn-string);
+    }
+
+    .n {
+      color: var(--syn-number);
+    }
+
+    .o {
+      color: var(--syn-operator);
+    }
+
+    .c {
+      color: var(--fg-comment);
+      font-style: italic;
+    }
+
+    .ns {
+      color: var(--syn-type);
+    }
+
+    /* PALETTE */
+    .palette-section {
+      width: 100%;
+      max-width: 1000px;
+      margin: 4rem auto;
+      text-align: center;
+    }
+
+    .hex-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+
+    .hex-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .hex-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--fg-secondary);
+    }
+
+    .swatch {
+      height: 50px;
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .swatch::after {
+      content: 'COPY';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: 0.2s;
+      border-radius: 8px;
+    }
+
+    .hex-card:hover .swatch::after {
+      opacity: 1;
+    }
+
+    .hex-name {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--fg-secondary);
+      letter-spacing: 1px;
+      margin-bottom: 0.25rem;
+    }
+
+    .hex-val {
+      font-family: var(--font-code);
+      font-size: 0.85rem;
+      color: var(--fg-primary);
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 3rem;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--syn-function), var(--syn-keyword));
+      color: #fff;
+      box-shadow: 0 5px 20px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--fg-primary);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--syn-keyword);
+      color: var(--syn-keyword);
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--bg-active);
+      color: var(--syn-function);
+      padding: 0.75rem 2rem;
+      border-radius: 99px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px var(--shadow);
+      opacity: 0;
+      transition: all 0.4s var(--ease-elastic);
+      z-index: 100;
+      border: 1px solid var(--border);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media(max-width: 900px) {
+      .preview-stage {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+
+<body data-theme="eclipse">
+
+  <header class="hero">
+    <!-- THE LOGO -->
+    <img src="https://avatars.githubusercontent.com/u/251496121?v=4" alt="AetherAmethyst Logo" class="hero-logo">
+
+    <span class="brand-badge">Psychological Design System</span>
+    <h1>AetherAmethyst</h1>
+    <p class="lead">
+      A monochrome-purple environment engineered for flow. <br>
+      Drift into the <strong>Eclipse</strong> or wake up to <strong>Bliss</strong>.
+    </p>
+
+    <div class="toggle-capsule">
+      <button class="toggle-btn active" onclick="setTheme('eclipse')">Eclipse</button>
+      <button class="toggle-btn" onclick="setTheme('bliss')">Bliss</button>
+    </div>
+  </header>
+
+  <section class="preview-stage">
+
+    <!-- LEFT COLUMN: TUI & GUI -->
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+
+      <div class="window">
+        <div class="titlebar">
+          <div class="dot close"></div>
+          <div class="dot min"></div>
+          <div class="dot max"></div>
+          <span class="win-title">Terminal</span>
+        </div>
+        <div class="terminal">
+          <div><span class="prompt-char">➜</span><span class="prompt-path">~/aether</span> <span
+              style="color:var(--fg-primary)">cargo build --release</span></div>
+          <div style="color:var(--fg-secondary); margin-top:0.5rem"> Compiling aether_core v2.0.0</div>
+          <div style="color:var(--fg-secondary)"> Compiling aether_ui v2.0.0</div>
+          <div style="color:var(--syn-function); margin-top:0.5rem"> Finished release [optimized] in 1.45s</div>
+          <div style="margin-top:1rem"><span class="prompt-char">➜</span><span class="prompt-path">~/aether</span><span
+              class="caret"></span></div>
+        </div>
+      </div>
+
+      <div class="window">
+        <div class="titlebar">
+          <div class="dot close"></div>
+          <div class="dot min"></div>
+          <div class="dot max"></div>
+          <span class="win-title">Dashboard</span>
+        </div>
+        <div class="gui-content">
+          <div class="widget">
+            <div class="widget-head">Memory Integrity</div>
+            <div class="widget-val">98.4%</div>
+            <div class="progress-track">
+              <div class="progress-bar" style="width: 98%"></div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="widget">
+              <div class="widget-head">Threads</div>
+              <div class="widget-val" style="color: var(--syn-keyword)">16</div>
+            </div>
+            <div class="widget">
+              <div class="widget-head">Latency</div>
+              <div class="widget-val" style="color: var(--syn-function)">4ms</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: EDITOR -->
+    <div class="window">
+      <div class="titlebar">
+        <div class="dot close"></div>
+        <div class="dot min"></div>
+        <div class="dot max"></div>
+        <span class="win-title">engine.cpp — Neovim</span>
+      </div>
+      <div class="editor">
+        <div class="gutter">
+          1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16
+        </div>
+        <div class="code">
+          <div class="ln"><span class="k">namespace</span> <span class="ns">Aether</span> <span class="o">{</span></div>
+          <div class="ln">&nbsp;</div>
+          <div class="ln"> <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span>
+            <span class="t">T</span><span class="o">&gt;</span>
+          </div>
+          <div class="ln"> <span class="k">class</span> <span class="t">Amethyst</span> <span class="o">{</span></div>
+          <div class="ln"> <span class="k">private</span><span class="o">:</span></div>
+          <div class="ln"> <span class="t">T</span> <span class="n">energy_level</span><span class="o">;</span></div>
+          <div class="ln">&nbsp;</div>
+          <div class="ln"> <span class="k">public</span><span class="o">:</span></div>
+          <div class="ln"> <span class="c">// Initialize the core engine</span></div>
+          <div class="ln active"> <span class="t">void</span> <span class="f">ignite</span><span class="o">()</span>
+            <span class="k">const</span> <span class="o">{</span>
+          </div>
+          <div class="ln"> <span class="t">std</span><span class="o">::</span><span class="t">string</span> <span
+              class="n">status</span> <span class="o">=</span> <span class="s">"Core Online"</span><span
+              class="o">;</span></div>
+          <div class="ln"> <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span
+              class="o">-&gt;</span><span class="n">energy_level</span> <span class="o">&gt;</span> <span
+              class="n">9000</span><span class="o">)</span> <span class="o">{</span></div>
+          <div class="ln"> <span class="n">status</span> <span class="o">+=</span> <span class="s">"
+              [MAXIMUM]"</span><span class="o">;</span></div>
+          <div class="ln"> <span class="o">}</span></div>
+          <div class="ln"> <span class="t">std</span><span class="o">::</span><span class="n">cout</span> <span
+              class="o">&lt;&lt;</span> <span class="n">status</span> <span class="o">&lt;&lt;</span> <span
+              class="t">std</span><span class="o">::</span><span class="n">endl</span><span class="o">;</span></div>
+          <div class="ln"> <span class="o">}</span></div>
+          <div class="ln"> <span class="o">};</span></div>
+          <div class="ln"><span class="o">}</span></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- PALETTE SECTION -->
+  <section class="palette-section">
+    <h2 style="font-weight: 800; font-size: 2rem;">The Palette</h2>
+    <p style="color: var(--fg-secondary)">Click any color to copy the hex code.</p>
+
+    <div class="hex-grid" id="paletteGrid">
+      <!-- Injected by JS based on theme -->
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="downloadJSON()">Download JSON</button>
+      <button class="btn btn-outline" onclick="window.open('https://github.com/AetherSyscall/AetherAmethyst')">View on
+        GitHub</button>
+    </div>
+  </section>
+
+  <footer style="margin: 4rem 0; color: var(--fg-secondary); font-size: 0.9rem;">
+    &copy; 2026 AetherSyscall. Open Source Apache 2.0 License.
+  </footer>
+
+  <div id="toast" class="toast">Copied to clipboard!</div>
+
+  <script>
+    const THEMES = {
+      eclipse: {
+        bg: "#13111B", panel: "#1B1824", text: "#EDE8F5",
+        keyword: "#9580FF", func: "#FF70B8", type: "#D2A8FF", string: "#FF9CE6"
+      },
+      bliss: {
+        bg: "#FDF7FF", panel: "#F4EBFA", text: "#3E3245",
+        keyword: "#624CAB", func: "#D1006B", type: "#8839CE", string: "#C22085"
+      }
+    };
+
+    const LABELS = {
+      bg: "Background", panel: "Surface", text: "Foreground",
+      keyword: "Keyword", func: "Function", type: "Type", string: "String"
+    };
+
+    let currentTheme = 'eclipse';
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      document.body.setAttribute('data-theme', theme);
+
+      document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.toLowerCase() === theme);
+      });
+
+      renderPalette();
+    }
+
+    function renderPalette() {
+      const colors = THEMES[currentTheme];
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+
+      for (const [key, hex] of Object.entries(colors)) {
+        grid.innerHTML += `
+                    <div class="hex-card" onclick="copyHex('${hex}')">
+                        <div class="swatch" style="background: ${hex}"></div>
+                        <div class="hex-name">${LABELS[key]}</div>
+                        <div class="hex-val">${hex}</div>
+                    </div>
+                `;
+      }
+    }
+
+    function copyHex(hex) {
+      navigator.clipboard.writeText(hex);
+      showToast(`Copied ${hex}`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    function downloadJSON() {
+      const data = THEMES[currentTheme];
+      const jsonStr = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonStr], {type: "application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `aether-amethyst-${currentTheme}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    renderPalette();
+  </script>
+</body>
+
+</html>

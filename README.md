@@ -53,7 +53,7 @@ I have designed the [Design System and the Palette](https://aethersyscall.github
 
 | Tool | Maintainer | Link | Tags |
 | :--- | :--- | :--- | :--- |
-| **Neovim** | [@AetherSyscall](https://github.com/AetherSyscall) | I'm working on this | `lua` `treesitter` |
+| **Neovim** | [@AetherSyscall](https://github.com/AetherSyscall) | [AetherAmethyst.nvim](https://github.com/AetherSyscall/AetherAmethyst.nvim) | `lua` `treesitter` |
 | **VS Code** | *Waiting for you...* | — | `json` |
 | **Terminal** | *Waiting for you...* | — | `alacritty` `kitty` |
 | **JetBrains** | *Waiting for you...* | — | `java` `xml` |

@@ -1,0 +1,63 @@
+{
+  "name": "AetherAmethyst",
+  "version": "2.0.0",
+  "description": "Psychological Monochrome. A dual-environment theme engineered for flow.",
+  "variants": {
+    "eclipse": {
+      "base": {
+        "bg": "#13111B",
+        "surface": "#1B1824",
+        "element": "#252130",
+        "active": "#2F2942",
+        "border": "#2E283B"
+      },
+      "text": {
+        "primary": "#EDE8F5",
+        "secondary": "#9B94A8",
+        "muted": "#5C5269"
+      },
+      "syntax": {
+        "keyword": "#9580FF",
+        "function": "#FF70B8",
+        "type": "#D2A8FF",
+        "string": "#FF9CE6",
+        "number": "#C26BFF",
+        "operator": "#80FFEA"
+      },
+      "semantic": {
+        "error": "#FF70B8",
+        "warning": "#E0AF68",
+        "success": "#80FFEA",
+        "info": "#9580FF"
+      }
+    },
+    "bliss": {
+      "base": {
+        "bg": "#FDF7FF",
+        "surface": "#F4EBFA",
+        "element": "#EADCF5",
+        "active": "#DCC2F0",
+        "border": "#DCC2F0"
+      },
+      "text": {
+        "primary": "#3E3245",
+        "secondary": "#746880",
+        "muted": "#9E94A8"
+      },
+      "syntax": {
+        "keyword": "#624CAB",
+        "function": "#D1006B",
+        "type": "#8839CE",
+        "string": "#C22085",
+        "number": "#7B1FA2",
+        "operator": "#008B8B"
+      },
+      "semantic": {
+        "error": "#D1006B",
+        "warning": "#C79200",
+        "success": "#008B8B",
+        "info": "#624CAB"
+      }
+    }
+  }
+}

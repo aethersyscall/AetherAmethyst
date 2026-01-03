@@ -28,6 +28,8 @@ This is the most important rule.
 *   If your tool needs **Green**, use **Teal** or **Cyan (`#80FFEA`)**.
 *   If your tool needs **Red**, use **Magenta** or **Neon Pink (`#FF70B8`)**.
 
+// Note: Don't guess the colors. Download palette.json from the website or use the tokens defined there.
+
 ### 2. Respect the Environments.
 *   **Eclipse (Dark Mode):**
     *   Do not use pure black (`#000000`). It is too harsh. Use the specific Void Indigo (`#13111B`) I provided.
